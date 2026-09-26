@@ -1,0 +1,124 @@
+        /* Base Theme Variables */
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --bg-color: #f8fafc;
+            --surface: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            /* Prevent overscroll bounce on mobile */
+            overscroll-behavior-y: none; 
+        }
+
+        /* --- Header & Layout --- */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: var(--shadow);
+        }
+
+        .menu-btn {
+            background: none; border: none; color: white;
+            font-size: 1.5rem; margin-right: 1rem; cursor: pointer;
+        }
+
+        main { padding: 1rem; max-width: 600px; margin: 0 auto; }
+
+        /* --- Foldable Sidebar --- */
+        .sidebar {
+            position: fixed; top: 0; left: -250px;
+            width: 250px; height: 100vh;
+            background-color: var(--surface);
+            box-shadow: var(--shadow);
+            transition: left 0.3s ease;
+            z-index: 20; padding-top: 4rem;
+        }
+        .sidebar.active { left: 0; }
+        
+        .sidebar-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.5); opacity: 0; visibility: hidden;
+            transition: 0.3s; z-index: 15;
+        }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; }
+
+        .nav-link {
+            display: block; padding: 1rem 1.5rem;
+            color: var(--text-main); text-decoration: none;
+            border-bottom: 1px solid var(--border);
+            font-weight: 500;
+        }
+        .nav-link:active { background-color: var(--bg-color); }
+
+        /* --- Views System --- */
+        .view-section { display: none; }
+        .view-section.active { display: block; animation: fadeIn 0.2s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- Form Components --- */
+        .card {
+            background: var(--surface); border-radius: 12px;
+            padding: 1.5rem; margin-bottom: 1rem; box-shadow: var(--shadow);
+        }
+
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+        
+        input, select {
+            width: 100%; padding: 0.75rem;
+            border: 1px solid var(--border); border-radius: 8px;
+            font-size: 1rem; outline: none;
+        }
+        input:focus, select:focus { border-color: var(--primary); }
+
+        .btn {
+            width: 100%; padding: 0.875rem;
+            background-color: var(--primary); color: white;
+            border: none; border-radius: 8px; font-size: 1rem;
+            font-weight: 600; cursor: pointer; transition: 0.2s;
+        }
+        .btn:active { transform: scale(0.98); }
+        .btn-success { background-color: var(--success); }
+        .btn-outline { background-color: transparent; border: 1px solid var(--primary); color: var(--primary); }
+
+        /* --- Progress Bar --- */
+        .progress-container { margin-top: 2rem; }
+        .progress-bar {
+            height: 24px; border-radius: 12px; overflow: hidden;
+            display: flex; background-color: var(--border);
+        }
+        .progress-segment {
+            height: 100%; display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 0.75rem; font-weight: bold;
+        }
+
+        /* --- Lists & Items --- */
+        .list-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 0; border-bottom: 1px solid var(--border);
+        }
+        .list-item:last-child { border-bottom: none; }
+        .item-meta { font-size: 0.875rem; color: var(--text-muted); }
+        .item-amount { font-weight: bold; font-size: 1.125rem; }
+        
+        /* Balance specifics */
+        .debt-positive { color: var(--success); }
+        .debt-negative { color: var(--danger); }
+        .action-row { display: flex; gap: 0.5rem; margin-top: 0.5rem; }

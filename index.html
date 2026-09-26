@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <!-- Essential for mobile PWA rendering -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PagaDios</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Top Header -->
+    <header>
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+        <h1 style="font-size: 1.25rem;">PagaDios</h1>
+    </header>
+
+    <!-- Foldable Sidebar -->
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+    <nav class="sidebar">
+        <a href="#" class="nav-link" onclick="switchView('add-expense')">Nuevo Gasto</a>
+        <a href="#" class="nav-link" onclick="switchView('history')">Historial</a>
+        <a href="#" class="nav-link" onclick="switchView('participants')">Participantes</a>
+        <a href="#" class="nav-link" onclick="switchView('balance')">Balance</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        
+        <!-- View 1: Add Expense (Default) -->
+        <section id="add-expense" class="view-section active">
+            <div class="card">
+                <div class="form-group">
+                    <label>¿Qué compraste?</label>
+                    <input type="text" id="gasto-desc" placeholder="Ej: Asado, Nafta, Supermercado">
+                </div>
+                <div class="form-group">
+                    <label>¿Cuánto gastaste?</label>
+                    <input type="number" id="gasto-monto" inputmode="decimal" placeholder="$ 0.00">
+                </div>
+                <button class="btn">Enviar Gasto</button>
+            </div>
+
+            <div class="progress-container card">
+                <label>Proporción de gastos totales</label>
+                <div class="progress-bar">
+                    <!-- Hardcoded UI representations for scaffolding -->
+                    <div class="progress-segment" style="width: 60%; background-color: var(--primary);">Yo 60%</div>
+                    <div class="progress-segment" style="width: 40%; background-color: var(--text-muted);">Matias 40%</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- View 2: History -->
+        <section id="history" class="view-section">
+            <div class="card">
+                <div class="form-group">
+                    <label>Filtrar por participante</label>
+                    <select>
+                        <option>Todos</option>
+                        <option>Yo</option>
+                        <option>Matias</option>
+                    </select>
+                </div>
+                
+                <div class="list-item">
+                    <div>
+                        <div style="font-weight: 500;">Carnicería (Yo)</div>
+                        <div class="item-meta">Hoy, 18:30</div>
+                    </div>
+                    <div class="item-amount">$ 15,000</div>
+                </div>
+                <div class="list-item">
+                    <div>
+                        <div style="font-weight: 500;">Bebidas (Matias)</div>
+                        <div class="item-meta">Hoy, 19:15</div>
+                    </div>
+                    <div class="item-amount">$ 8,500</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- View 3: Participants -->
+        <section id="participants" class="view-section">
+            <div class="card">
+                <div class="list-item">
+                    <div style="font-weight: 500;">Yo</div>
+                    <div class="item-meta">Creador</div>
+                </div>
+                <div class="list-item">
+                    <div style="font-weight: 500;">Matias</div>
+                    <div class="item-meta">Invitado</div>
+                </div>
+                <button class="btn btn-outline" style="margin-top: 1rem;">+ Invitar persona (Código QR)</button>
+            </div>
+        </section>
+
+        <!-- View 4: Balance -->
+        <section id="balance" class="view-section">
+            <!-- Someone owes me -->
+            <div class="card">
+                <div class="list-item" style="border: none; padding-bottom: 0;">
+                    <div>
+                        <div style="font-weight: 500;">Matias te debe</div>
+                    </div>
+                    <div class="item-amount debt-positive">$ 3,250</div>
+                </div>
+                <div class="action-row">
+                    <button class="btn btn-success" style="font-size: 0.875rem;">Pagadios</button>
+                </div>
+            </div>
+
+            <!-- I owe someone -->
+            <div class="card">
+                <div class="list-item" style="border: none; padding-bottom: 0;">
+                    <div>
+                        <div style="font-weight: 500;">Le debes a Juan</div>
+                    </div>
+                    <div class="item-amount debt-negative">$ 5,000</div>
+                </div>
+                <div class="form-group" style="margin-top: 1rem;">
+                    <input type="number" inputmode="decimal" placeholder="Monto a pagar..." value="5000">
+                </div>
+                <div class="action-row">
+                    <button class="btn btn-outline" style="font-size: 0.875rem;">Pagar ahora</button>
+                </div>
+                <div class="action-row">
+                    <button class="btn btn-outline" style="font-size: 0.875rem;">Estafar</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- UI Logic: View routing and Sidebar toggle -->
+    <script>
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.querySelector('.sidebar-overlay');
+        const views = document.querySelectorAll('.view-section');
+
+        // Toggles off-canvas menu state
+        function toggleSidebar() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        // Handles SPA internal routing
+        function switchView(viewId) {
+            views.forEach(view => view.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            toggleSidebar(); // Close sidebar after selection
+        }
+    </script>
+    
+    <script type="module" src="./app.js"></script>
+</body>
+</html>
