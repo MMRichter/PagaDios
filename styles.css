@@ -122,3 +122,27 @@
         .debt-positive { color: var(--success); }
         .debt-negative { color: var(--danger); }
         .action-row { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+
+        /* Notificaciones */
+        .notif-btn { margin-left: auto; margin-right: 0; position: relative; }
+        .badge {
+            position: absolute; top: -2px; right: -2px;
+            background: var(--danger); color: white;
+            border-radius: 999px; font-size: 0.65rem; line-height: 1;
+            padding: 2px 5px; min-width: 16px; text-align: center;
+        }
+        .hidden { display: none !important; }
+        .notif-item { cursor: pointer; }
+        .notif-item.unread { background: #eff6ff; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); flex: 0 0 auto; }
+
+        /* Al no estar logueado, se oculta la navegación */
+        body:not(.logged-in) .sidebar,
+        body:not(.logged-in) .sidebar-overlay { display: none; }
+
+        .btn:disabled { opacity: 0.6; cursor: default; }
+
+        /* Leaderboards */
+        .leaderboard-card { display: flex; flex-direction: column; gap: 0.15rem; }
+        .leaderboard-nombre { font-size: 1.25rem; font-weight: 700; }
+        .leaderboard-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem; }
