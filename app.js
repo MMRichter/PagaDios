@@ -192,8 +192,8 @@ function renderBalance(c) {
         <div class="card">
             <div class="list-item" style="border:none; padding-bottom:0;">
                 <div>
-                    <div style="font-weight: 500;">Te pidieron perdonar una deuda</div>
-                    <div class="item-meta">${formatMoney(s.monto)} · solicitud de estafa</div>
+                    <div style="font-weight: 500;">Intento de Estafa: </div>
+                    <div class="item-meta">${formatMoney(s.monto)} · solicitud de Pagadios</div>
                 </div>
             </div>
             <div class="action-row">
@@ -231,7 +231,7 @@ function renderBalance(c) {
                     </div>
                     <div class="action-row">
                         <button class="btn btn-outline" style="font-size: 0.875rem;" data-accion="pagar" data-uid="${esc(b.uid)}">Pagar ahora</button>
-                        <button class="btn btn-outline" style="font-size: 0.875rem;" data-accion="estafar" data-uid="${esc(b.uid)}">Estafar</button>
+                        <button class="btn btn-outline" style="font-size: 0.875rem;" data-accion="estafar" data-uid="${esc(b.uid)}">Intentar Estafa</button>
                     </div>
                 </div>`;
         }).join('');
@@ -246,7 +246,7 @@ async function onBalanceAction(btn) {
     const uid = btn.dataset.uid;
     try {
         if (accion === 'pagadios') {
-            if (!confirm('¿Perdonar la deuda? Se registrará como Pagadios.')) return;
+            if (!confirm('¿Perdonar la deuda y darse por estafado? El verdadero Pagadios.')) return;
             const r = await forgivePagadios(store, {
                 sesionId: state.sesionId, acreedorId: state.uid, deudorId: uid, monto: Number(btn.dataset.monto)
             });
@@ -258,7 +258,7 @@ async function onBalanceAction(btn) {
         } else if (accion === 'estafar') {
             const monto = Number(document.getElementById(`input-pagar-${uid}`)?.value);
             await requestEstafa(store, { sesionId: state.sesionId, deudorId: state.uid, acreedorId: uid, monto });
-            alert('Solicitud enviada. Esperá la respuesta.');
+            alert('Intentaste una estafa... Esperá la respuesta.');
         } else if (accion === 'aceptar' || accion === 'rechazar') {
             const r = await resolveEstafa(store, {
                 sesionId: state.sesionId, solicitudId: btn.dataset.solicitud, aceptar: accion === 'aceptar'
@@ -271,11 +271,13 @@ async function onBalanceAction(btn) {
 }
 
 const TARJETAS_LEADERBOARD = [
-    { key: 'pagadios', titulo: 'Pagadios', desc: 'El que más deuda se hizo perdonar', formato: 'money' },
+    { key: 'pagadios', titulo: 'Pagadios', desc: 'El que más deuda pudo estafar', formato: 'money' },
     { key: 'estafado', titulo: 'El Estafado', desc: 'El que más plata perdonó', formato: 'money' },
     { key: 'gastador', titulo: 'El Gastador', desc: 'El que más gastó en compras', formato: 'money' },
     { key: 'peya', titulo: 'El Peya', desc: 'El que más compras hizo', formato: 'count' },
-    { key: 'ratatouille', titulo: 'El Ratatouille', desc: 'El que más plata debe', formato: 'money' }
+    { key: 'ratatouille', titulo: 'El Ratatouille', desc: 'El que más plata debe', formato: 'money' },
+    { key: 'pepe-argento', titulo: 'Pepe Argento', desc: 'Mas intentos de estafa fallidos', formato: 'count' },
+    { key: 'santos', titulo: 'Mario Santos', desc: 'Mas estafas concretadas', formato: 'count' }
 ];
 
 function renderLeaderboards(c) {
@@ -432,7 +434,7 @@ async function enviarGasto() {
         });
         $('#gasto-desc').value = '';
         $('#gasto-monto').value = '';
-        alert('¡Gasto anotado! PagaDios.');
+        alert('¡Gasto anotado! Dios te ayude.');
     } catch (error) {
         alert(error.message || 'Error al guardar el gasto.');
     } finally {
